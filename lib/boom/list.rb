@@ -23,6 +23,8 @@ module Boom
     #
     # Returns the unpersisted List instance.
     def initialize(name)
+      @items = []
+      @name = name
     end
 
     # Public: deletes the List object
@@ -31,17 +33,23 @@ module Boom
     def delete
     end
 
-    # Public: lets you access the array of items contained within this List.
+    attr_accessor :items
+    attr_accessor :name
+
+    # Public: associates an Item with this List.
     #
-    # Returns an Array of Items.
-    def items
+    # item - The Item object to associate with this List.
+    #
+    # Returns the current set of items.
+    def add_item(item)
+      @items << item
     end
 
-    # Public: creates a JSON data structure for this List.
+    # Public: a Hash representation of this List.
     #
-    # Returns a String of its own data and its child Item in JSON format.
-    def to_json
-      items.collect(&:to_json)
+    # Returns a Hash of its own data and its child Items.
+    def to_hash
+      { name => items.collect(&:to_hash) }
     end
   end
 end

@@ -1,17 +1,21 @@
 module Boom
   class Item
-    # Public: creates a new Item object that's associated to a particular List.
+    attr_accessor :name
+    attr_accessor :value
+
+    # Public: creates a new Item object.
     #
     # name  - The String name of the Item
     # value - The String value of the Item
-    # list  - The List object that the Item belongs to
     #
     # Examples
     #
-    #   Item.new("github", "http://github.com", github_list)
+    #   Item.new("github", "http://github.com")
     #
     # Returns the newly initialized Item.
-    def initialize(name, value, list)
+    def initialize(name, value)
+      @name = name
+      @value = value
     end
 
     # Public : deletes the Item object.
@@ -20,10 +24,11 @@ module Boom
     def delete
     end
 
-    # Public: creates a JSON data structure for this Item.
+    # Public: creates a Hash for this Item.
     #
-    # Returns a String of its data in JSON format
-    def to_json
+    # Returns a Hash of its data.
+    def to_hash
+      { @name => @value }
     end
   end
 end
