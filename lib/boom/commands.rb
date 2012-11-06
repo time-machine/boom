@@ -30,7 +30,7 @@ module Boom
       # Public: search for an Item in all lists by name. Drops the
       # corresponding entry into your clipboard.
       #
-      # name - The String term to seach for in all Item names.
+      # name - The String term to search for in all Item names.
       #
       # Returns the matching Item.
       def search(name)
@@ -38,7 +38,7 @@ module Boom
           item.name == name
         end
 
-        puts item
+        Clipboard.copy item
       end
 
       # Public: prints a tidy overview of your Lists in descending order of

@@ -45,7 +45,7 @@ module Boom
     end
 
     def to_hash
-      { :lists => lists.collect(&:to_json) }
+      { :lists => lists.collect(&:to_hash) }
     end
 
     # INTERNAL METHODS
