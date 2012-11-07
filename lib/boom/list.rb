@@ -21,12 +21,6 @@ module Boom
       @name = name
     end
 
-    # Public: Deletes the List object
-    #
-    # Returns true deletion if successful, false if unsuccessfull.
-    def delete
-    end
-
     attr_accessor :items
     attr_accessor :name
 
@@ -36,6 +30,15 @@ module Boom
     #
     # Returns the current set of items.
     def add_item(item)
+      @items << item
+    end
+
+    # Public: Removes an Item from this List.
+    #
+    # item - The Item object to associate with this List.
+    #
+    # Returns the current set of items.
+    def delete_item(item)
       @items << item
     end
 
