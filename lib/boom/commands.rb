@@ -3,7 +3,7 @@ module Boom
     class << self
       attr_accessor :storage
 
-      def execute(storage, args)
+      def execute(storage, *args)
         @storage = storage
         command = args.shift
 
