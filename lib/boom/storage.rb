@@ -16,10 +16,8 @@ module Boom
     # descending.
     #
     # Returns an Array of List objects.
-    attr_accessor :lists
-
     def lists
-      @lists.sort_by { |list| list.items.size }
+      @lists.sort_by { |list| -list.items.size }
     end
 
     # Public: All Items in storage.
