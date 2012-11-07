@@ -7,7 +7,7 @@ module Boom
         @storage = storage
         command = args.shift
 
-        return list unless command
+        return overview unless command
 
         return send(command, *args) if respond_to?(command)
         search(command)
@@ -117,9 +117,21 @@ module Boom
       # number of Items.
       #
       # Returns nothing.
-      def list
+      def overview
         storage.lists.each do |list|
           puts "  #{list.name} (#{list.items.size})"
+        end
+      end
+
+      # Public: Prints all Items over all Lists
+      #
+      # Returns nothing.
+      def list
+        storage.lists.each do |list|
+          puts "  #{list.name}"
+          list.items.each do |item|
+            puts "    #{item.name}: #{item.value}"
+          end
         end
       end
     end
