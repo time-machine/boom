@@ -1,6 +1,6 @@
 module Boom
   class List
-    # Public: creates a new List object from JSON data structures, including
+    # Public: Creates a new List object from JSON data structures, including
     # any child Items it contains.
     #
     # Examples
@@ -11,7 +11,7 @@ module Boom
     def self.create_from_json(json)
     end
 
-    # Public: creates a new List instance in-memory.
+    # Public: Creates a new List instance in-memory.
     #
     # name - The name of the List. Fails if already used.
     #
@@ -21,7 +21,7 @@ module Boom
       @name = name
     end
 
-    # Public: deletes the List object
+    # Public: Deletes the List object
     #
     # Returns true deletion if successful, false if unsuccessfull.
     def delete
@@ -30,7 +30,7 @@ module Boom
     attr_accessor :items
     attr_accessor :name
 
-    # Public: associates an Item with this List.
+    # Public: Associates an Item with this List.
     #
     # item - The Item object to associate with this List.
     #
@@ -39,7 +39,7 @@ module Boom
       @items << item
     end
 
-    # Public: a Hash representation of this List.
+    # Public: A Hash representation of this List.
     #
     # Returns a Hash of its own data and its child Items.
     def to_hash

@@ -3,10 +3,10 @@ module Boom
     attr_accessor :name
     attr_accessor :value
 
-    # Public: creates a new Item object.
+    # Public: Creates a new Item object.
     #
-    # name  - The String name of the Item
-    # value - The String value of the Item
+    # name  - The String name of the Item.
+    # value - The String value of the Item.
     #
     # Examples
     #
@@ -18,13 +18,13 @@ module Boom
       @value = value
     end
 
-    # Public : deletes the Item object.
+    # Public : Deletes the Item object.
     #
     # Returns true deletion if successful, false if unsuccessfull.
     def delete
     end
 
-    # Public: creates a Hash for this Item.
+    # Public: Creates a Hash for this Item.
     #
     # Returns a Hash of its data.
     def to_hash

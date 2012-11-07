@@ -2,7 +2,7 @@ module Boom
   class Storage
     JSON_FILE = "#{ENV['HOME']}/.boom"
 
-    # Public: initializes a Storage instance by loading in your persisted data.
+    # Public: Initializes a Storage instance by loading in your persisted data.
     #
     # Returns the Storage instance.
     def initialize
@@ -12,7 +12,7 @@ module Boom
 
     attr_writer :lists
 
-    # Public: the list of Lists in your JSON data, sorted by number of items
+    # Public: The list of Lists in your JSON data, sorted by number of items
     # descending.
     #
     # Returns an Array of List objects.
@@ -22,21 +22,21 @@ module Boom
       @lists.sort_by { |list| list.items.size }
     end
 
-    # Public: all Items in storage.
+    # Public: All Items in storage.
     #
     # Returns an Array of all Items.
     def items
       @lists.collect(&:items).flatten
     end
 
-    # Public: persists your in-memory objects to disk in JSON format.
+    # Public: Persists your in-memory objects to disk in JSON format.
     #
     # Returns true if successful, false if unsuccessfull.
-    def save
+    def save!
       File.open(JSON_FILE, 'w') { |f| f.write(to_json) }
     end
 
-    # Public: the JSON representation of the current List and Item assortment
+    # Public: The JSON representation of the current List and Item assortment
     # attached to the Storage instance.
     #
     # Returns a String JSON representation of its Lists and their Items.

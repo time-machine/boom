@@ -1,7 +1,7 @@
 module Boom
   class Clipboard
     class << self
-      # Public: copies a give Item's value to the clipboard. This method is
+      # Public: Copies a give Item's value to the clipboard. This method is
       # designed to handle multiple platforms.
       #
       # Returns nothing.
