@@ -2,12 +2,19 @@ module Boom
   class Storage
     JSON_FILE = "#{ENV['HOME']}/.boom"
 
+    # Public: The path to the JSON file used by boom.
+    #
+    # Returns the String path of boom's JSON representation.
+    def json_file
+      JSON_FILE
+    end
+
     # Public: Initializes a Storage instance by loading in your persisted data.
     #
     # Returns the Storage instance.
     def initialize
       @lists = []
-      explode_json(JSON_FILE)
+      explode_json(json_file)
     end
 
     attr_writer :lists
@@ -31,7 +38,7 @@ module Boom
     #
     # Returns true if successful, false if unsuccessfull.
     def save!
-      File.open(JSON_FILE, 'w') { |f| f.write(to_json) }
+      File.open(json_file, 'w') { |f| f.write(to_json) }
     end
 
     # Public: The JSON representation of the current List and Item assortment
