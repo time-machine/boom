@@ -13,6 +13,26 @@ module Boom
         search(command)
       end
 
+      # Public: Prints any given String.
+      #
+      # s - The String to output
+      #
+      # Prints to STDOUT and returns. This method exists to standardize output
+      # and for easy mocking and overriding.
+      def output(s)
+        puts(s)
+      end
+
+      # Public: Prints a tidy overview of your Lists in descending order of
+      # number of Items.
+      #
+      # Returns nothing.
+      def overview
+        storage.lists.each do |list|
+          output "  #{list.name} (#{list.items.size})"
+        end
+      end
+
       # Public: Adds a new List or Item, depending upon context.
       #
       # list  - The String List name.
@@ -131,16 +151,6 @@ module Boom
         end
 
         Clipboard.copy item
-      end
-
-      # Public: Prints a tidy overview of your Lists in descending order of
-      # number of Items.
-      #
-      # Returns nothing.
-      def overview
-        storage.lists.each do |list|
-          puts "  #{list.name} (#{list.items.size})"
-        end
       end
 
       # Public: Prints all Items over all Lists
