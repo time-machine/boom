@@ -27,6 +27,15 @@ module Boom
       @lists.sort_by { |list| -list.items.size }
     end
 
+    # Public: Tests whether a named List exist.
+    #
+    # name - The String name of a List.
+    #
+    # Returns true if found, false if not.
+    def list_exists?(name)
+      @lists.detect { |list| list.name == name }
+    end
+
     # Public: All Items in storage.
     #
     # Returns an Array of all Items.
