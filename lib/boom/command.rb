@@ -128,28 +128,6 @@ module Boom
         end
       end
 
-      # Public: Adds a new List or Item, depending upon context.
-      #
-      # list  - The String List name.
-      # name  - The String name of the Item (optional).
-      # value - The String value of the Item (optional).
-      #
-      # Example
-      #
-      #   Commands.add("snippets", "sig", "- @holman")
-      #   Commands.add("snippets")
-      #
-      # Returns the newly created List or Item.
-      def add(list, name=nil, value=nil)
-        if value
-          add_item(list, name, value)
-        else
-          add_list(list)
-        end
-
-        storage.save!
-      end
-
       # Public: Add a new Item to a list.
       #
       # list  - The String name of the List to associate with this Item.
@@ -165,27 +143,6 @@ module Boom
         list = storage.lists.find { |storage_list| storage_list.name == list }
         list.add_item(Item.new(name, value))
         puts "Boom! \"#{name}\" in \"#{list.name}\" is \"#{value}\". Got it."
-      end
-
-      # Public: Deletes an Item or List, depending upon context.
-      #
-      # target - Either "list" or the Item name.
-      # name   - The String name of the List to delete (optional).
-      #
-      # Example
-      #
-      #   Commands.delete("list", "snippets")
-      #   Commands.delete("test-item")
-      #
-      # Returns the newly created List or Item.
-      def delete(target, name=nil)
-        if target == 'list'
-          delete_list(name)
-        else
-          item_delete(target)
-        end
-
-        storage.save!
       end
 
       # Public: Remove a named Item.
