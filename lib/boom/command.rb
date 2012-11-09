@@ -30,6 +30,7 @@ module Boom
       def delegate(command, major, minor)
         # if we're operating on a List
         if storage.list_exists?(command)
+          return list_delete(command) if major == 'delete'
           return list_detail(command) unless major
           return search_list_for_item(command, major)
         end
@@ -87,6 +88,26 @@ module Boom
       def overview
         storage.lists.each do |list|
           output "  #{list.name} (#{list.items.size})"
+        end
+      end
+
+      # Public: Remove a named List.
+      #
+      # name - The String name of the List.
+      #
+      # Example
+      #
+      #   Commands.list_delete("snippets")
+      #
+      # Returns nothing.
+      def list_delete(name)
+        lists = storage.lists.reverse.reject { |list| list.name == name }
+        output "You sure you want to delete everything in \"#{name}\"? (y/n):"
+        if gets == 'y'
+          storage.lists = lists
+          output "Boom! Deleted all your #{name}."
+        else
+          output "Just kidding then."
         end
       end
 
@@ -148,21 +169,6 @@ module Boom
         end
 
         storage.save!
-      end
-
-      # Public: Remove a named List.
-      #
-      # name - The String name of the List.
-      #
-      # Example
-      #
-      #   Commands.delete_list("snippets")
-      #
-      # Returns nothing.
-      def delete_list(name)
-        lists = storage.lists.reverse.reject { |list| list.name == name }
-        storage.lists = lists
-        puts "Boom! Deleted the \"#{name}\" list."
       end
 
       # Public: Remove a named Item.
