@@ -4,12 +4,19 @@
 #
 # Command also keeps track of one connection to Storage, which is how new data
 # changes are persisted to disk. It takes care of any data changes by calling
-# #persist!.
+# Boom::Command#save!.
 module Boom
   class Command
     class << self
       attr_accessor :storage
 
+      # Public: Executes a command.
+      #
+      # storage - The Storage instance off which to run commands. This is
+      #           likely just Boom::Storage.new, since Boom::Storage should
+      #           pic up the appropriate JSON file paths on its own.
+      # args    - The actuall commands to operate on. Can be as few as zero
+      #           arguments or as many as three.
       def execute(storage, *args)
         @storage = storage
 
@@ -107,18 +114,6 @@ module Boom
         save!
       end
 
-      # Public: Prints all Items over all Lists
-      #
-      # Returns nothing.
-      def list
-        storage.lists.each do |list|
-          puts "  #{list.name}"
-          list.items.each do |item|
-            puts "    #{item.name}: #{item.value}"
-          end
-        end
-      end
-
       # Public: Remove a named List.
       #
       # name - The String name of the List.
@@ -131,7 +126,7 @@ module Boom
       def list_delete(name)
         lists = storage.lists.reverse.reject { |list| list.name == name }
         output "You sure you want to delete everything in \"#{name}\"? (y/n):"
-        if gets == 'y'
+        if $stdin.gets.chomp == 'y'
           storage.lists = lists
           output "Boom! Deleted all your #{name}."
           save!
