@@ -33,7 +33,7 @@ can have multiple lists.
     gifs (5)
     email (4)
 
-** Create a List **
+** Create a list **
 
     $ boom urls
     Boom! Created a new list called "urls".
@@ -59,7 +59,7 @@ can have multiple lists.
     blog   http://zachholman.com
     github https://github.com
 
-** Delete a List **
+** Delete a list **
 
     $ boom urls delete
     Youn sure you want to delete everything in "urls"? (y/n): y
