@@ -1,5 +1,7 @@
-module Boom
-  class List
+# The List contains many Items. They exist as buckets in which to categorize
+# individual Items. The relationship is maintained in a simple array on the
+# List-level.
+module Boom class List
     # Public: Creates a new List instance in-memory.
     #
     # name - The name of the List. Fails if already used.

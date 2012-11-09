@@ -1,3 +1,6 @@
+# The representation of the base unit in boom. An Item contains just a name and
+# a value. It doesn't know its parent relationship explicitly; the parent List
+# object instead knows which Items it contains.
 module Boom
   class Item
     # Public: The String name of the Item.
