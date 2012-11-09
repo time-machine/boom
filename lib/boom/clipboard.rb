@@ -6,15 +6,17 @@ module Boom
       #
       # Returns nothing.
       def copy(item)
-        clipboard = 'xclip -sel clip' # Linux
+        clipboard = ''
 
         if RUBY_PLATFORM =~ /darwin/
           clipboard = 'pbcopy' # Mac
+        else
+          # clipboard = 'xclip -sel clip' # Linux
         end
 
         `echo '#{item.value}' | tr -d "\n" | #{clipboard}`
 
-        puts "Boom! We just copied #{item.value} to your clipboard."
+        "Boom! We just copied #{item.value} to your clipboard."
       end
     end
   end

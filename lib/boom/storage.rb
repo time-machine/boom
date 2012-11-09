@@ -43,6 +43,15 @@ module Boom
       @lists.collect(&:items).flatten
     end
 
+    # Public: tests whether a named Item exist.
+    #
+    # name - The String name of an Item.
+    #
+    # Returns true if found, false if not.
+    def item_exists?(name)
+      items.detect { |item| item.name == name }
+    end
+
     # Public: Persists your in-memory objects to disk in JSON format.
     #
     # Returns true if successful, false if unsuccessfull.
@@ -71,6 +80,8 @@ module Boom
     def explode_json(json)
       FileUtils.touch(json)
       storage = Yajl::Parser.new.parse(File.new(json, 'r'))
+
+      return unless storage
 
       storage['lists'].each do |lists|
         lists.each do |list_name, items|
