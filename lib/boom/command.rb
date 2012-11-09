@@ -24,19 +24,46 @@ module Boom
         puts(s)
       end
 
+      # Public: Prints a tidy overview of your Lists in descending order of
+      # number of Items.
+      #
+      # Returns nothing.
+      def overview
+        storage.lists.each do |list|
+          output "  #{list.name} (#{list.items.size})"
+        end
+      end
+
+      # Public: Prints the detailed view of all your Lists and all their
+      # Items.
+      #
+      # Returns nothing.
+      def all
+        storage.lists.each do |list|
+          output "  #{list.name}"
+          list.items.each do |item|
+            output "    #{item.name}: #{item.value}"
+          end
+        end
+      end
+
       # Public: Allows main access to most commands.
       #
       # Returns output based on method calls.
       def delegate(command, major, minor)
+        return all if command == 'all'
+
         # if we're operating on a List
         if storage.list_exists?(command)
           return list_delete(command) if major == 'delete'
           return list_detail(command) unless major
-          return search_list_for_item(command, major)
+          return search_list_for_item(command, major) unless minor == 'delete'
         end
 
-        if storage.item_exists?(command)
-          return search_items(command)
+        return search_items(command) if storage.item_exists?(command)
+
+        if minor == 'delete' and storage.item_exists?(major)
+          return item_delete(major)
         end
 
         return list_create(command)
@@ -78,16 +105,6 @@ module Boom
           list.items.each do |item|
             puts "    #{item.name}: #{item.value}"
           end
-        end
-      end
-
-      # Public: Prints a tidy overview of your Lists in descending order of
-      # number of Items.
-      #
-      # Returns nothing.
-      def overview
-        storage.lists.each do |list|
-          output "  #{list.name} (#{list.items.size})"
         end
       end
 
@@ -165,7 +182,7 @@ module Boom
         if target == 'list'
           delete_list(name)
         else
-          delete_item(target)
+          item_delete(target)
         end
 
         storage.save!
@@ -177,14 +194,14 @@ module Boom
       #
       # Example
       #
-      #   Commands.delete_item("an-item-name")
+      #   Commands.item_delete("an-item-name")
       #
       # Returns nothing.
-      def delete_item(name)
+      def item_delete(name)
         storage.lists = storage.lists.each do |list|
           list.items.reject! { |item| item.name == name }
         end
-        puts "Boom! \"#{name}\" is gone forever."
+        output "Boom! \"#{name}\" is gone forever."
       end
 
       # Public: Search for an Item in all lists by name. Drops the
