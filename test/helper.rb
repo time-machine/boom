@@ -1,6 +1,11 @@
-require 'rubygems'
 require 'test/unit'
-require 'turn'
+
+begin
+  require 'rubygems'
+  require 'turn'
+rescue LoadError
+end
+
 require 'mocha'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
