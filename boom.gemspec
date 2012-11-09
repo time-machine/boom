@@ -59,6 +59,7 @@ Gem::Specification.new do |s|
   ## THE MANIFEST COMMENTS, they are used as delimiters by the task.
   # = MANIFEST =
   s.files = %w[
+    LICENSE
     README.md
     Rakefile
     bin/boom
@@ -72,6 +73,8 @@ Gem::Specification.new do |s|
     test/examples/urls.json
     test/helper.rb
     test/test_command.rb
+    test/test_item.rb
+    test/test_list.rb
   ]
   # = MANIFEST =
 
