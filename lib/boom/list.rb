@@ -13,6 +13,13 @@ module Boom
       @name = name
     end
 
+    # Public: Accesses the in-memory JSON representation.
+    #
+    # Returns a Storage instance.
+    def self.storage
+      Boom.storage
+    end
+
     # Public: Lets you access the array of items contained within this List.
     #
     # Returns an Array of Items.
@@ -30,6 +37,15 @@ module Boom
     # Returns the current set of items.
     def add_item(item)
       @items << item
+    end
+
+    # Public: Finds any given List by name.
+    #
+    # name - String name of the list to search for.
+    #
+    # Returns the first instance of List that it finds.
+    def self.find(name)
+      storage.lists.find { |list| list.name == name }
     end
 
     # Public: A Hash representation of this List.
