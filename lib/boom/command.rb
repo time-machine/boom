@@ -72,8 +72,8 @@ module Boom
 
         # if we're operating on a List
         if storage.list_exists?(command)
-          return list_delete(command) if major == 'delete'
-          return list_detail(command) unless major
+          return delete_list(command) if major == 'delete'
+          return detail_list(command) unless major
           unless minor == 'delete'
             return add_item(command, major, minor) if minor
             return search_list_for_item(command, major)
@@ -83,10 +83,10 @@ module Boom
         return search_items(command) if storage.item_exists?(command)
 
         if minor == 'delete' and storage.item_exists?(major)
-          return item_delete(command, major)
+          return delete_item(command, major)
         end
 
-        return list_create(command)
+        return create_list(command)
       end
 
       # Public: Prints all Items over a List.
@@ -94,7 +94,7 @@ module Boom
       # name - The List object to iterate over.
       #
       # Returns nothing.
-      def list_detail(name)
+      def detail_list(name)
         list = List.find(name)
         list.items.sort {|x,y| x.name <=> y.name }.each do |item|
           output "    #{item.name}: #{item.value}"
@@ -107,10 +107,10 @@ module Boom
       #
       # Example
       #
-      #   Commands.list_create("snippets")
+      #   Commands.create_list("snippets")
       #
       # Returns the newly created List.
-      def list_create(name)
+      def create_list(name)
         lists = (storage.lists << List.new(name))
         storage.lists = lists
         output "Boom! Created a new list called \"#{name}\"."
@@ -123,10 +123,10 @@ module Boom
       #
       # Example
       #
-      #   Commands.list_delete("snippets")
+      #   Commands.delete_list("snippets")
       #
       # Returns nothing.
-      def list_delete(name)
+      def delete_list(name)
         output "You sure you want to delete everything in \"#{name}\"? (y/n):"
         if $stdin.gets.chomp == 'y'
           List.delete(name)
@@ -162,10 +162,10 @@ module Boom
       #
       # Example
       #
-      #   Commands.item_delete("a-list-name", "an-item-name")
+      #   Commands.delete_item("a-list-name", "an-item-name")
       #
       # Returns nothing.
-      def item_delete(list_name, name)
+      def delete_item(list_name, name)
         list = List.find(list_name)
         list.delete_item(name)
         output "Boom! \"#{name}\" is gone forever."
