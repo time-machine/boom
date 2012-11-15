@@ -48,6 +48,17 @@ module Boom
       storage.lists.find { |list| list.name == name }
     end
 
+    # Public: Deletes a List by name.
+    #
+    # name - String name of the list to delete.
+    #
+    # Returns whether one or more lists were removed.
+    def self.delete(name)
+      previous = storage.lists.size
+      storage.lists = storage.lists.reject { |list| list.name == name }
+      previous != storage.lists.size
+    end
+
     # Public: A Hash representation of this List.
     #
     # Returns a Hash of its own data and its child Items.
