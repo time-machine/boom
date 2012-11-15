@@ -68,6 +68,7 @@ module Boom
         return all  if command == 'all'
         return edit if command == 'edit'
         return help if command == 'help'
+        return help if command[0] == '-' # any - dash options are please for help
 
         # if we're operating on a List
         if storage.list_exists?(command)
