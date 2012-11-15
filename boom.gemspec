@@ -66,12 +66,12 @@ Gem::Specification.new do |s|
   ## THE MANIFEST COMMENTS, they are used as delimiters by the task.
   # = MANIFEST =
   s.files = %w[
+    CHANGELOG.md
     LICENSE.md
     README.md
     Rakefile
     bin/boom
     boom.gemspec
-    changelog.md
     lib/boom.rb
     lib/boom/clipboard.rb
     lib/boom/command.rb
