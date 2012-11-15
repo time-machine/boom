@@ -59,6 +59,17 @@ module Boom
       previous != storage.lists.size
     end
 
+    # Public: Deletes an Item by name
+    #
+    # name - String name of the item to delete.
+    #
+    # Returns whether an item was removed.
+    def delete_item(name)
+      previous = items.size
+      items.reject! { |item| item.name == name }
+      previous != items.size
+    end
+
     # Public: A Hash representation of this List.
     #
     # Returns a Hash of its own data and its child Items.

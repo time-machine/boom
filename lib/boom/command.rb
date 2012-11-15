@@ -83,7 +83,7 @@ module Boom
         return search_items(command) if storage.item_exists?(command)
 
         if minor == 'delete' and storage.item_exists?(major)
-          return item_delete(major)
+          return item_delete(command, major)
         end
 
         return list_create(command)
@@ -157,17 +157,17 @@ module Boom
 
       # Public: Remove a named Item.
       #
-      # name - The String name of the Item.
+      # list_name - The String name of the List.
+      # name      - The String name of the Item.
       #
       # Example
       #
-      #   Commands.item_delete("an-item-name")
+      #   Commands.item_delete("a-list-name", "an-item-name")
       #
       # Returns nothing.
-      def item_delete(name)
-        storage.lists = storage.lists.each do |list|
-          list.items.reject! { |item| item.name == name }
-        end
+      def item_delete(list_name, name)
+        list = List.find(list_name)
+        list.delete_item(name)
         output "Boom! \"#{name}\" is gone forever."
         save!
       end
