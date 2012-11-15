@@ -81,6 +81,9 @@ can have multiple lists.
       urls
         blog   http://zachholman.com
         github https://github.com
+** Help **
+
+    $ boom help
 
 ** Manual edit **
 
