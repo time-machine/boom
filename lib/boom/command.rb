@@ -56,7 +56,7 @@ module Boom
         storage.lists.each do |list|
           output "  #{list.name}"
           list.items.each do |item|
-            output "    #{item.name}: #{item.value}"
+            output "    #{item.short_name}:#{item.spacer} #{item.value}"
           end
         end
       end
@@ -97,7 +97,7 @@ module Boom
       def detail_list(name)
         list = List.find(name)
         list.items.sort {|x,y| x.name <=> y.name }.each do |item|
-          output "    #{item.name}: #{item.value}"
+          output "    #{item.short_name}:#{item.spacer} #{item.value}"
         end
       end
 
