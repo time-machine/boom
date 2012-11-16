@@ -75,15 +75,19 @@ Gem::Specification.new do |s|
     lib/boom.rb
     lib/boom/clipboard.rb
     lib/boom/command.rb
+    lib/boom/config.rb
     lib/boom/item.rb
     lib/boom/list.rb
     lib/boom/storage.rb
     lib/boom/storage/base.rb
     lib/boom/storage/json.rb
     lib/boom/storage/mongodb.rb
+    test/examples/config_json.json
+    test/examples/test_json.json
     test/examples/urls.json
     test/helper.rb
     test/test_command.rb
+    test/test_config.rb
     test/test_item.rb
     test/test_list.rb
   ]
