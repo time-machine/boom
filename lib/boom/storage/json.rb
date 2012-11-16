@@ -5,7 +5,7 @@
 # convenience methods to run searches and operations on the in-memory hash.
 module Boom
   module Storage
-    class JSON
+    class JSON < Base
       JSON_FILE = "#{ENV['HOME']}/.boom"
 
       # Public: The path to the JSON file used by boom.

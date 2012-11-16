@@ -11,7 +11,7 @@ module Boom
       #
       # Returns the Storage instance.
       def initialize
-        @lists = Boom.adapter.lists
+        @lists = Boom.storage.lists
       end
 
       # Public: The in-memory collection of all Lists attached to this Storage
@@ -34,7 +34,7 @@ module Boom
       #
       # Returns true or false.
       def save!
-        Boom.adapter.save(to_json)
+        Boom.storage.save(to_json)
       end
 
       # Public: Tests whether a named List exists.

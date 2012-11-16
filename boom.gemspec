@@ -73,13 +73,14 @@ Gem::Specification.new do |s|
     bin/boom
     boom.gemspec
     lib/boom.rb
-    lib/boom/base.rb
     lib/boom/clipboard.rb
     lib/boom/command.rb
     lib/boom/item.rb
-    lib/boom/json.rb
     lib/boom/list.rb
-    lib/boom/mongodb.rb
+    lib/boom/storage.rb
+    lib/boom/storage/base.rb
+    lib/boom/storage/json.rb
+    lib/boom/storage/mongodb.rb
     test/examples/urls.json
     test/helper.rb
     test/test_command.rb
