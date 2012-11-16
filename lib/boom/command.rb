@@ -187,17 +187,21 @@ module Boom
       end
 
       # Public: Search for an Item in a particular list by name. Drops the
-      # corresponding entry into your clipboard.
+      # corresponding entry into your clipboard if found.
       #
       # list_name - The String name of the List in which to scope the search.
       # item_name - The String term to search for in all Item names.
       #
-      # Returns the matching Item.
+      # Returns the matching Item if found.
       def search_list_for_item(list_name, item_name)
         list = List.find(list_name)
-        item = list.items.first { |item| item.name == item_name }
+        item = list.items.find { |item| item.name == item_name }
 
-        output Clipboard.copy(item)
+        if item.nil?
+          output "\"#{item_name}\" not found in \"#{list_name}\""
+        else
+          output Clipboard.copy(item)
+        end
       end
 
       # Public: Save in-memory data to disk
