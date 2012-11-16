@@ -72,13 +72,14 @@ Gem::Specification.new do |s|
     Rakefile
     bin/boom
     boom.gemspec
-    changelog.md
     lib/boom.rb
+    lib/boom/base.rb
     lib/boom/clipboard.rb
     lib/boom/command.rb
     lib/boom/item.rb
+    lib/boom/json.rb
     lib/boom/list.rb
-    lib/boom/storage.rb
+    lib/boom/mongodb.rb
     test/examples/urls.json
     test/helper.rb
     test/test_command.rb
