@@ -70,13 +70,18 @@ module Boom
       previous != items.size
     end
 
-    # Public: Find an Item by name.
+    # Public: Find an Item by name. If the name is typically truncated, also
+    # allow a search based on that truncated name.
     #
     # name - String name of the Item to find.
     #
     # Returns the found item.
     def find_item(name)
       items.find { |item| item.name == name }
+      items.find do |item|
+        item.name == name ||
+        item.short_name.gsub('...', '') == name.gsub('...', '')
+      end
     end
 
     # Public: A Hash representation of this List.
