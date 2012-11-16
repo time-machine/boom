@@ -1,3 +1,5 @@
+# coding: utf-8
+
 # Command is the main point of entry for boom commands; shell arguments are
 # passed through to Command, which then filters and parses through individual
 # commands and reroutes them to constituent object classes.
