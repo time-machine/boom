@@ -1,5 +1,10 @@
 # boom changes
 
+## head
+
+## 0.0.8
+- Support for Ruby 1.9 (thanks [jimmycuadra](https://github.com/jimmycuadra)).
+
 ## 0.0.7
 - Reverts item creation from stdin, since it broke regular item creation.
 
