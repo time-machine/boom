@@ -12,32 +12,27 @@ $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 
 require 'boom/clipboard'
 require 'boom/command'
-require 'boom/config'
+# require 'boom/config'
 require 'boom/item'
 require 'boom/list'
 require 'boom/storage'
-require 'boom/storage/base'
-require 'boom/storage/json'
-require 'boom/storage/mongodb'
+# require 'boom/storage/base'
+# require 'boom/storage/json'
+# require 'boom/storage/mongodb'
+
+require 'boom/core_ext/symbol'
 
 module Boom
-  VERSION = '0.0.8'
+  VERSION = '0.0.9'
 
   extend self
 
   def storage
-    @storage ||= Boom::Storage.backend
+    # @storage ||= Boom::Storage.backend
+    @storage ||= Boom::Storage.new
   end
 
-  def config
-    @config ||= Boom::Config.new
-  end
-end
-
-unless Symbol.method_defined?(:to_proc)
-  class Symbol
-    def to_proc
-      Proc.new { |obj, *args| obj.send(self, *args) }
-    end
-  end
+  # def config
+  #   @config ||= Boom::Config.new
+  # end
 end
