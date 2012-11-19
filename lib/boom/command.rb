@@ -185,7 +185,7 @@ module Boom
           item.name == name
         end
 
-        output Clipboard.copy(item)
+        output Platform.copy(item)
       end
 
       # Public: Search for an Item in a particular list by name. Drops the
@@ -200,7 +200,7 @@ module Boom
         item = list.find_item(item_name)
 
         if item
-          output Clipboard.copy(item)
+          output Platform.copy(item)
         else
           output "\"#{item_name}\" not found in \"#{list_name}\""
         end
