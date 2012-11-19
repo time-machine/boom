@@ -22,13 +22,12 @@ module Boom
       # args    - The actuall commands to operate on. Can be as few as zero
       #           arguments or as many as three.
       def execute(*args)
-        method = args.first == '-o' ? (args.shift and :open) : :copy
         command = args.shift
         major   = args.shift
         minor   = args.empty? ? nil : args.join(' ')
 
         return overview unless command
-        delegate(command, major, minor, method)
+        delegate(command, major, minor)
       end
 
       # Public: Prints any given String.
@@ -67,11 +66,12 @@ module Boom
       # Public: Allows main access to most commands.
       #
       # Returns output based on method calls.
-      def delegate(command, major, minor, method)
+      def delegate(command, major, minor)
         return all  if command == 'all'
         return edit if command == 'edit'
         return help if command == 'help'
         return help if command[0] == 45 || command[0] == '-' # any - dash options are please for help
+        return open(major, minor) if command == 'open'
 
         # if we're operating on a List
         if storage.list_exists?(command)
@@ -79,11 +79,11 @@ module Boom
           return detail_list(command) unless major
           unless minor == 'delete'
             return add_item(command, major, minor) if minor
-            return search_list_for_item(command, major, method)
+            return search_list_for_item(command, major)
           end
         end
 
-        return search_items(command, method) if storage.item_exists?(command)
+        return search_items(command) if storage.item_exists?(command)
 
         if minor == 'delete' and storage.item_exists?(major)
           return delete_item(command, major)
@@ -101,6 +101,20 @@ module Boom
         list = List.find(name)
         list.items.sort {|x,y| x.name <=> y.name }.each do |item|
           output "    #{item.short_name}:#{item.spacer} #{item.value}"
+        end
+      end
+
+      # Public: Opens the Item.
+      #
+      # Returns nothing.
+      def open(major, minor)
+        if storage.list_exists?(major)
+          list = List.find(major)
+          list.items.each { |item| Platform.open(item) }
+          output "Boom! We just opened all of \"#{major}\" for you."
+        else
+          item = storage.items.detect { |item| item.name == major }
+          output Platform.open(item)
         end
       end
 
@@ -179,15 +193,14 @@ module Boom
       # corresponding entry into your clipboard.
       #
       # name   - The String term to search for in all Item names.
-      # method - The Symbol method later called on Platform with item.
       #
       # Returns the matching Item.
-      def search_items(name, method=:copy)
+      def search_items(name)
         item = storage.items.detect do |item|
           item.name == name
         end
 
-        output Platform.send(method, item)
+        output Platform.copy(item)
       end
 
       # Public: Search for an Item in a particular list by name. Drops the
@@ -195,15 +208,14 @@ module Boom
       #
       # list_name - The String name of the List in which to scope the search.
       # item_name - The String term to search for in all Item names.
-      # method     - The Symbol method later called on Platform with item.
       #
       # Returns the matching Item if found.
-      def search_list_for_item(list_name, item_name, method=:copy)
+      def search_list_for_item(list_name, item_name)
         list = List.find(list_name)
         item = list.find_item(item_name)
 
         if item
-          output Platform.send(method, item)
+          output Platform.copy(item)
         else
           output "\"#{item_name}\" not found in \"#{list_name}\""
         end
@@ -244,8 +256,8 @@ module Boom
           boom <list> <name> <value>    create a new list item
           boom <name>                   copy item's value to clipboard
           boom <list> <name>            copy item's value to clipboard
-          boom -o <name>                open item's url in browser
-          boom -o <list> <name>         open item's url in browser
+          boom open <name>              open item's url in browser
+          boom open <list> <name>       open item's url in browser
           boom <list> <name> delete     deletes an item
 
           all other documentation is located at:
