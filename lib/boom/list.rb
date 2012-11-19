@@ -32,12 +32,14 @@ module Boom
     # Returns the String name.
     attr_accessor :name
 
-    # Public: Associates an Item with this List.
+    # Public: Associates an Item with this List. If the item name is already
+    # defined, then the value will be replaced.
     #
     # item - The Item object to associate with this List.
     #
     # Returns the current set of items.
     def add_item(item)
+      delete_item(item.name) if find_item(item.name)
       @items << item
     end
 
