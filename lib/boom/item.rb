@@ -44,11 +44,20 @@ module Boom
       name.length > 15 ? "#{name[0..14]}..." : name[0..14]
     end
 
-    # Public: the amount of consistent spaces to pad based on Item#short_name.
+    # Public: The amount of consistent spaces to pad based on Item#short_name.
     #
     # Returns a String of spaces.
     def spacer
       name.length > 15 ? '' : ' ' * (15 - name.length + 1)
+    end
+
+    # Public: Only return url part of value - if no url has been detected
+    # returns value.
+    #
+    # Returns a String which preferably is a URL.
+    def url
+        @url ||= value.split(/\s+/)
+          .detect { |v| v =~ %r{\A[a-z0-9]+:\S+}i } || value
     end
 
     # Public: Creates a Hash for this Item.
