@@ -61,6 +61,18 @@ class TestCommand < Test::Unit::TestCase
       command('urls github')
   end
 
+  def test_item_open_url
+    Boom::Platform.stubs(:open_command).returns('echo')
+    assert_match /opened https:\/\/github\.com in your browser/,
+      command('-o github')
+  end
+
+  def test_item_open_scoped_by_list
+    Boom::Platform.stubs(:open_command).returns('echo')
+    assert_match /opened https:\/\/github\.com in your browser/,
+      command('-o urls github')
+  end
+
   def test_item_creation
     assert_match /"twitter" in "urls"/, command('urls twitter http://twitter.com/holman')
   end
