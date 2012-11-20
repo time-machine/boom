@@ -93,14 +93,12 @@ browser. You creep. You can also just open up one:
     $ boom open twitter
     Boom! We just opened http://twitter.com for you.
 
-** Echo an item **
+** Just print an item **
 
     # boom echo <list> <name>
     # boom echo <name>
     $ git clone $(boom echo github)holman/boom
     Cloning into boom...
-
-Impossible... no. It's silly, but no impossible.
 
 ** Help **
 
