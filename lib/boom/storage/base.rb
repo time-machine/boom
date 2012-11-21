@@ -13,8 +13,17 @@ module Boom
       def initialize
         @lists = []
         bootstrap
-        setup
+        populate
       end
+
+      # run bootstrap tasks for the storage
+      def bootstrap ; end
+
+      # populate the in-memory store with all the lists and items
+      def populate ; end
+
+      # save the data
+      def save ; end
 
       # Public: The in-memory collection of all Lists attached to this Storage
       # instance.
@@ -30,13 +39,6 @@ module Boom
       # Returns an Array of List objects.
       def lists
         @lists.sort_by { |list| -list.items.size }
-      end
-
-      # Public: Saving in-memory data to any adapter.
-      #
-      # Returns true or false.
-      def save!
-        save
       end
 
       # Public: Tests whether a named List exists.

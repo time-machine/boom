@@ -11,12 +11,12 @@ class TestConfig < Test::Unit::TestCase
     @config.stubs(:save).returns(true)
   end
 
-  def _test_bootstraps_config
+  def test_bootstraps_config
     @config.bootstrap
     assert_equal ({:backend => 'JSON'}), @config.attributes
   end
 
-  def _test_attributes
+  def test_attributes
     @config.attributes[:wu_tang] = 'clan'
     assert_equal 'clan', @config.attributes[:wu_tang]
   end

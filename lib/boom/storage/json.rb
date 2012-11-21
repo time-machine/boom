@@ -29,7 +29,7 @@ module Boom
       # consituent Lists and Items for the given Storage instance.
       #
       # Returns nothing.
-      def setup
+      def populate
         storage = Yajl::Parser.new.parse(File.new(json_file, 'r'))
 
         storage['lists'].each do |lists|

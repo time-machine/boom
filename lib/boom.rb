@@ -12,13 +12,15 @@ $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 
 require 'boom/platform'
 require 'boom/command'
-# require 'boom/config'
+require 'boom/config'
 require 'boom/item'
 require 'boom/list'
+
 require 'boom/storage'
-# require 'boom/storage/base'
-# require 'boom/storage/json'
-# require 'boom/storage/mongodb'
+require 'boom/storage/base'
+require 'boom/storage/json'
+require 'boom/storage/redis'
+require 'boom/storage/mongodb'
 
 require 'boom/core_ext/symbol'
 
@@ -28,11 +30,10 @@ module Boom
   extend self
 
   def storage
-    # @storage ||= Boom::Storage.backend
-    @storage ||= Boom::Storage.new
+    @storage ||= Boom::Storage.backend
   end
 
-  # def config
-  #   @config ||= Boom::Config.new
-  # end
+  def config
+    @config ||= Boom::Config.new
+  end
 end
