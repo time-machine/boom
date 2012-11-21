@@ -69,6 +69,8 @@ module Boom
       def delegate(command, major, minor)
         return all  if command == 'all'
         return edit if command == 'edit'
+        return switch(major) if command == 'switch'
+        return show_storage if command == 'storage'
         return help if command == 'help'
         return help if command[0] == 45 || command[0] == '-' # any - dash options are please for help
         return echo(major, minor) if command == 'echo' || command == 'e'
@@ -91,6 +93,25 @@ module Boom
         end
 
         return create_list(command)
+      end
+
+      # Public: Shows the current user's storage.
+      #
+      # Returns nothing.
+      def show_storage
+        output "You're currently using #{Boom.config.attributes['backend']}."
+      end
+
+      # Public: Switch to a new backend.
+      #
+      # backend - The String of the backend desired.
+      #
+      # Returns nothing.
+      def switch(backend)
+        Storage.backend = backend
+        output "We've switched you over to #{backend}."
+      rescue NameError
+        output "We couldn't find that storage engine. Check the name and try again."
       end
 
       # Public: Prints all Items over a List.

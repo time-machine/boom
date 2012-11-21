@@ -126,6 +126,20 @@ class TestCommand < Test::Unit::TestCase
     assert_match /"wrong" not found/, command('echo wrong')
   end
 
+  def test_show_storage
+    assert_match /You're currently using json/, command('storage')
+  end
+
+  def test_nonexistant_storage_switch
+    Boom::Config.any_instance.stubs(:save).returns(true)
+    assert_match /couldn't find that storage engine/, command('switch dkdkdk')
+  end
+
+  def test_storage_switch
+    Boom::Config.any_instance.stubs(:save).returns(true)
+    assert_match /We've switched you over to redis/, command('switch redis')
+  end
+
   def test_echo_list_item
     assert_match /https:\/\/github\.com/, command('echo urls github')
   end
