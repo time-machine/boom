@@ -22,7 +22,7 @@ module Boom
         return if File.exist?(json_file)
         FileUtils.touch json_file
         File.open(json_file, 'w') { |f| f.write(to_json) }
-        save!
+        save
       end
 
       # Take a JSON representation of data and explode it out into the
