@@ -1,6 +1,8 @@
 # boom changes
 
 ## head
+
+## 0.1.2
 - Copy to clipboard doesn't hang anymore. Sweet. Thanks,
   [mcollina](https://github.com/mcollina).
 - Holy hell, [brettbuddin](https://github.com/brettbuddin) added completion for
