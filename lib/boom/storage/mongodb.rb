@@ -1,64 +1,56 @@
 # coding: utf-8
 
 # Storage adapter that saves data from boom to MongoDB instead of JSON file.
-#
-# This was grabbed from antonlindstrom's fork, but he wrote it before the 0.1.0
-# changes to boom. It would need to be updated to use Boom::Config and to
-# inherit methods from Boom::Storage::Base. Until then, this is chillin' here
-# until it gets fixed.
+begin
+  require 'mongo'
+  require 'json/pure' # will be here for now see Issue#21
+rescue LoadError
+end
+
 module Boom
   module Storage
-    class MongoDB
-      MONGO_CFG = "#{ENV['HOME']}/.boomdb.conf"
-
-      # Public: The path to the JSON Mongo config file, userdata.
+    class MongoDB < Base
+      # Public: Initializes MongoDB connection and check dep.
       #
-      # Returns the String path of boom's MongoDB userdata.
-      def mongo_cfg
-        MONGO_CFG
+      # Returns Mongo connection.
+      def mongo
+        @mongo ||= ::Mongo::Connection.new(
+          Boom.config.attributes['mongodb']['host'],
+          Boom.config.attributes['mongodb']['port']
+        ).db(Boom.config.attributes['mongodb']['database'])
+
+        @mongo.authenticate(
+          Boom.config.attributes['mongodb']['username'],
+          Boom.config.attributes['mongodb']['password']
+        )
+
+        # return connection
+        @mongo
+      rescue NameError => e
+        puts "You don't have the Mongo gem installed yet:\n  gem install mongo"
+        exit
       end
 
-      # Public: Initializes a Storage instance by loading in your persisted
-      # data.
+      # Public: The MongoDB collection.
       #
-      # Returns the Storage instance.
-      def initialize
-        require 'mongo'
-
-        @lists = []
-        @mongo_coll = nil
-        mongo_initialize(mongo_cfg) # initialize the MongoDB and set data in memory
-        collect
+      # Returns the MongoDB collection.
+      def collection
+        @collection ||=
+          mongo.collection(Boom.config.attributes['mongodb']['collection'])
       end
 
-      # Public: Return the list from mongodb.
+      # Public: Bootstrap.
       #
-      # Returns list.
-      def lists
-        @lists
+      # Returns
+      def bootstrap
+        collection.insert('boom' => '{"lists"}: [{}]}') if collection.find_one.nil?
       end
 
-      # Public: Save to MongoDB.
-      #
-      # lists_json - The list to be saved in JSON format.
-      #
-      # Returns whatever mongo returns.
-      def save(lists_json)
-        doc = @mongo_coll.find_one()
-        @mongo_coll.update({"_id" => doc["_id"]}, {'boom' => lists_json})
-      end
-
-      # INTERNAL METHODS
-
-      # Take a JSON representation of data and explode it out into the
-      # consituent Lists and Items for the given Storage instance.
+      # Public: Populates the memory list from MongoDB
       #
       # Returns nothing.
-      def collect
-        s = @mongo_coll.find_one['boom']
-        storage = Yajl::Parser.new.parse(s)
-
-        return if storage['lists'].nil?
+      def populate
+        storage = JSON.parse(collection.find_one['boom']) || []
 
         storage['lists'].each do |lists|
           lists.each do |list_name, items|
@@ -73,62 +65,19 @@ module Boom
         end
       end
 
-      # MONGODB
-
-      # Initialize MongoDB and set data in memory.
+      # Public: Save to MongoDB
       #
-      # config_file - The MongoDB config_file path defined.
-      #
-      # Returns database object.
-      def mongo_initialize(config_file)
-        bootstrap_config(config_file) unless File.exists?(config_file)
-        config = parse_mongo_cfg(config_file)
-
-        db = Mongo::Connection.new(config['host'], config['port']).
-               db(config['database'])
-        auth = db.authenticate(config['username'], config['password'])
-
-        # get collection collection;
-        @mongo_coll = db.collection(config['collection'])
-
-        @mongo_coll.insert("boom" => '{"lists": [{}]}') if @mongo_coll.find_one.nil?
-
-        return @mongo_coll
+      # Returns Mongo ID.
+      def save
+        doc = collection.find_one()
+        collection.update({'_id' => doc['_id']}, {'boom' => to_json})
       end
 
-      # Parse Mongo JSON Config.
+      # Public: Convert to JSON.
       #
-      # config_file - The MongoDB config_file path defined.
-      #
-      # Returns a hash of Mongo Userdata.
-      def parse_mongo_cfg(config_file)
-        mongod = Hash.new
-        config = Yajl::Parser.new.parse(File.open(config_file), 'r')
-
-        config.each_pair do |type, data|
-          mongod[type] = data
-        end
-        return mongod
-      end
-
-      # Run a default config.
-      #
-      # config_file - The MongoDB config_file path defined.
-      #
-      # Returns File object.
-      def bootstrap_config(config_file)
-        config = Hash.new
-
-        config['host'] = 'localhost'
-        config['port'] = '27017'
-        config['database'] = 'boom'
-        config['username'] = 'boom'
-        config['password'] = 's3cr3t'
-        config['collection'] = 'boom'
-
-        # write to CFG
-        json_cfg = Yajl::Encoder.encode(config, :pretty => true)
-        File.open(config_file, 'w') { |f| f.write(json_cfg) }
+      # Returns.
+      def to_json
+        JSON.generate(to_hash)
       end
     end
   end
