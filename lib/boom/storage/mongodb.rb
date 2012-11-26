@@ -3,7 +3,6 @@
 # Storage adapter that saves data from boom to MongoDB instead of JSON file.
 begin
   require 'mongo'
-  require 'json/pure' # will be here for now see Issue#21
 rescue LoadError
 end
 
