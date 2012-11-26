@@ -154,4 +154,12 @@ class TestCommand < Test::Unit::TestCase
   def test_echo_list_item_does_not_exist
     assert_match /"wrong" not found in "urls"/, command('echo urls wrong')
   end
+
+  def test_version_switch
+    assert_match /#{Boom::VERSION}/, command('-v')
+  end
+
+  def test_version_long
+    assert_match /#{Boom::VERSION}/, command('--version')
+  end
 end

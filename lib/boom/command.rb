@@ -74,12 +74,14 @@ module Boom
       #
       # Returns output based on method calls.
       def delegate(command, major, minor)
-        return all  if command == 'all'
-        return edit if command == 'edit'
-        return switch(major) if command == 'switch'
-        return show_storage if command == 'storage'
-        return help if command == 'help'
-        return help if command[0] == 45 || command[0] == '-' # any - dash options are please for help
+        return all                if command == 'all'
+        return edit               if command == 'edit'
+        return switch(major)      if command == 'switch'
+        return show_storage       if command == 'storage'
+        return version            if command == '-v'
+        return version            if command == '--version'
+        return help               if command == 'help'
+        return help               if command[0] == 45 || command[0] == '-' # any - dash options are please for help
         return echo(major, minor) if command == 'echo' || command == 'e'
         return open(major, minor) if command == 'open' || command == 'o'
 
@@ -274,6 +276,13 @@ module Boom
       # Returns whether or not data was saved.
       def save
         storage.save
+      end
+
+      # Public: The version fo boom that you're currently running.
+      #
+      # Returns a String identifying the version number.
+      def version
+        output "You're running boom #{Boom::VERSION}. Congratulations!"
       end
 
       # Public: Launches JSON file in an editor for you to edit manually. Uses
