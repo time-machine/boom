@@ -10,6 +10,8 @@
 module Boom
   class Command
     class << self
+      include Boom::Color
+
       # Public: Accesses the in-memory JSON representation.
       #
       # Returns a Storage instance.
@@ -151,7 +153,7 @@ module Boom
         if storage.list_exists?(major)
           list = List.find(major)
           list.items.each { |item| Platform.open(item) }
-          output "Boom! We just opened all of \"#{major}\" for you."
+          output "#{magenta("Boom!")} We just opened all of \"#{yellow(major)}\" for you."
         else
           item = storage.items.detect { |item| item.name == major }
           output Platform.open(item)
@@ -168,11 +170,11 @@ module Boom
           item = storage.items.detect do |item|
             item.name == major
           end
-          return output "\"#{major}\" not found" unless item
+          return output "\"#{yellow(major)}\" #{red("not found")}" unless item
         else
           list = List.find(major)
           item = list.find_item(minor)
-          return output "\"#{minor}\" not found in \"#{major}\"" unless item
+          return output "\"#{yellow(minor)}\" #{red("not found in")} \"#{yellow(major)}\"" unless item
         end
         output item.value
       end
@@ -192,7 +194,7 @@ module Boom
       def create_list(name, item=nil, value=nil)
         lists = (storage.lists << List.new(name))
         storage.lists = lists
-        output "Boom! Created a new list called \"#{name}\"."
+        output "#{magenta("Boom!")} Created a new list called \"#{yellow(name)}\"."
         save
         add_item(name, item, value) unless value.nil?
       end
@@ -210,7 +212,7 @@ module Boom
         output "You sure you want to delete everything in \"#{name}\"? (y/n):"
         if $stdin.gets.chomp == 'y'
           List.delete(name)
-          output "Boom! Deleted all your #{name}."
+          output "#{magenta("Boom!")} Deleted all your #{yellow(name)}."
           save
         else
           output "Just kidding then."
@@ -231,7 +233,7 @@ module Boom
       def add_item(list, name, value)
         list = List.find(list)
         list.add_item(Item.new(name, value))
-        output "Boom! \"#{name}\" in \"#{list.name}\" is \"#{value}\". Got it."
+        output "#{magenta("Boom!")} \"#{yellow(name)}\" in \"#{yellow(list.name)}\" is \"#{yellow(value)}\". Got it."
         save
       end
 
@@ -248,7 +250,7 @@ module Boom
       def delete_item(list_name, name)
         list = List.find(list_name)
         list.delete_item(name)
-        output "Boom! \"#{name}\" is gone forever."
+        output "#{magenta("Boom!")} \"#{yellow(name)}\" is gone forever."
         save
       end
 
@@ -280,7 +282,7 @@ module Boom
         if item
           output Platform.copy(item)
         else
-          output "\"#{item_name}\" not found in \"#{list_name}\""
+          output "\"#{yellow(item_name)}\" #{red("not found in")} \"#{yellow(list_name)}\""
         end
       end
 
@@ -304,7 +306,7 @@ module Boom
       # Returns nothing.
       def edit
         system "`echo $EDITOR` #{storage.json_file} &"
-        output "Boom! Make your edits, and do be sure to save."
+        output "#{magenta("Boom!")} Make your edits, and do be sure to save."
       end
 
       # Public: Prints all the commands of boom.
