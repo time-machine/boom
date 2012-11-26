@@ -8,6 +8,8 @@
 module Boom
   class Platform
     class << self
+      include Boom::Color
+
       # Public: Tests if currently running on darwin.
       #
       # Returns true if running on darwin (MacOS X), else false.
@@ -31,7 +33,7 @@ module Boom
       # Returns a String explaining what was done.
       def open(item)
         `#{open_command} '#{item.url.gsub("\'", "\\'")}'`
-        "Boom! We just opened \"#{item.value}\" for you."
+        "#{red("Boom!")} We just opened \"#{yellow(item.value)}\" for you."
       end
 
       # Public: Copies a give Item's value to the clipboard. This method is
@@ -41,7 +43,7 @@ module Boom
       def copy(item)
         copy_command = darwin? ? 'pbcopy' : 'xclip -selection clipboard'
         Kernel.system("printf '#{item.value.gsub("\'", "\\'")}' | #{copy_command}")
-        "Boom! We just copied \"#{item.value}\" to your clipboard."
+        "#{red("Boom!")} We just copied \"#{yellow(item.value)}\" to your clipboard."
       end
     end
   end
