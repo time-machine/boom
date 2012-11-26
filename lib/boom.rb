@@ -6,7 +6,8 @@ rescue LoadError
 end
 
 require 'fileutils'
-require 'json/pure'
+require 'yajl'
+# require 'json/pure'
 
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 

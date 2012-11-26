@@ -71,14 +71,16 @@ module Boom
     #
     # Returns nothing.
     def load_attributes
-      @attributes = JSON.parse(File.new(file, 'r').read)
+      @attributes = Yajl::Parser.new.parse(File.new(file, 'r'))
+      # @attributes = JSON.parse(File.new(file, 'r').read)
     end
 
     # Public: Writes the in-memory JSON Hash to disk.
     #
     # Returns nothing.
     def save
-      json = JSON.generate(attributes)
+      json = Yajl::Encoder.encode(attributes, :pretty => true)
+      # json = JSON.generate(attributes)
       File.open(file, 'w') { |f| f.write(json) }
     end
   end

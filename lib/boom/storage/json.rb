@@ -30,7 +30,8 @@ module Boom
       #
       # Returns nothing.
       def populate
-        storage = JSON.parse(File.new(json_file, 'r').read)
+        storage = Yajl::Parser.new.parse(File.new(json_file, 'r'))
+        # storage = JSON.parse(File.new(json_file, 'r').read)
 
         storage['lists'].each do |lists|
           lists.each do |list_name, items|
@@ -59,7 +60,8 @@ module Boom
       #
       # Returns a String JSON representation of its Lists and their Items.
       def to_json
-        JSON.generate(to_hash)
+        Yajl::Encoder.encode(to_hash, :pretty => true)
+        # JSON.generate(to_hash)
       end
 
     end
