@@ -26,16 +26,16 @@ module Boom
     #
     # Examples
     #
-    #   colorize("Boom!", "\e[33m")
-    #   # => "\e[33mBoom!\e[0m"
+    #   colorize("Boom!", :magenta)
+    #   # => "\e[35mBoom!\e[0m"
     #
     # Returns the wrapped String.
     def colorize(string, color_code)
-      "#{color_code}#{string}#{CODES[:reset]}"
+      "#{CODES[color_code] || color_code}#{string}#{CODES[:reset]}"
     end
 
-    self.class_eval(CODES.reject { |color, code| color == :reset }.map do |color, code|
-      "def #{color}(string); colorize(string, \"#{code}\"); end"
+    self.class_eval(CODES.keys.reject { |color| color == :reset }.map do |color|
+      "def #{color}(string); colorize(string, :#{color}); end"
     end.join("\n"))
   end
 end
