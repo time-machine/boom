@@ -1,9 +1,11 @@
 # boom changes
 
 ## head
+- Add Keychain storage to store Boom data securely in OS X's Keychain.app.
+  Thanks, [@davidtrogers](https://github.com/davidtrogers)!
 - Switch from yajl-ruby because [OS X isn't for developers]
   (http://zachholman.com/2011/03/osx-isnt-for-developers/). Thanks
-  for finishing it up, [antonlindstrom](https://github.com/antonlindstrom).
+  for finishing it up, [@antonlindstrom](https://github.com/antonlindstrom).
 - Move dependencies to Bundler, because it's the One True Way at this point.
 - Some README updates.
 
