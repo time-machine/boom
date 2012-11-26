@@ -191,7 +191,7 @@ module Boom
         storage.lists = lists
         output "Boom! Created a new list called \"#{name}\"."
         save
-        add_item(name, major, minor) unless major.nil? || minor.nil?
+        add_item(name, major, minor) unless minor.nil?
       end
 
       # Public: Remove a named List.
