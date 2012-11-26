@@ -4,9 +4,10 @@ module Boom
   # Color collects some methods for colorizing terminal output.
   module Color
     CODES = {
-      :reset  => "\e[0m",
-      :red    => "\e[31m",
-      :yellow => "\e[33m"
+      :reset   => "\e[0m",
+      :magenta => "\e[35m",
+      :red     => "\e[31m",
+      :yellow  => "\e[33m"
     }
 
     # Tries to enable Windows support if on that platform.
