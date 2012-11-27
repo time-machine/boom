@@ -45,12 +45,19 @@ module Boom
         "#{magenta("Boom!")} We just opened \"#{yellow(item.value)}\" for you."
       end
 
+      # Public: Returns the command used to copy a given Item's value to the
+      # clipboard for the current platform.
+      #
+      # Returns a String with the bin.
+      def copy_command
+        darwin? ? 'pbcopy' : 'xclip -selection clipboard'
+      end
+
       # Public: Copies a give Item's value to the clipboard. This method is
       # designed to handle multiple platforms.
       #
       # Returns a String explaining what was done.
       def copy(item)
-        copy_command = darwin? ? 'pbcopy' : 'xclip -selection clipboard'
         Kernel.system("printf '#{item.value.gsub("\'", "\\'")}' | #{copy_command}")
         "#{magenta("Boom!")} We just copied \"#{yellow(item.value)}\" to your clipboard."
       end
