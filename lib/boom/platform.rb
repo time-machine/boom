@@ -33,7 +33,6 @@ module Boom
       #
       # Returns a String with the bin.
       def open_command
-        # there must be a nicer way of doing this?
         if darwin?
           'open'
         else
@@ -60,7 +59,11 @@ module Boom
       #
       # Returns a String with the bin.
       def copy_command
-        darwin? ? 'pbcopy' : 'xclip -selection clipboard'
+        if darwin?
+          'pbcopy'
+        else
+          windows? ? 'clip' : 'xclip -selection clipboard'
+        end
       end
 
       # Public: Copies a give Item's value to the clipboard. This method is
@@ -68,7 +71,12 @@ module Boom
       #
       # Returns a String explaining what was done.
       def copy(item)
-        Kernel.system("printf '#{item.value.gsub("\'", "\\'")}' | #{copy_command}")
+        unless windows?
+          Kernel.system("printf '#{item.value.gsub("\'", "\\'")}' | #{copy_command}")
+        else
+          Kernel.system("echo #{item.value.gsub("\'", "\\'")} | #{copy_command}")
+        end
+
         "#{magenta("Boom!")} We just copied \"#{yellow(item.value)}\" to your clipboard."
       end
     end
