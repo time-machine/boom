@@ -107,7 +107,7 @@ class TestCommand < Test::Unit::TestCase
   end
 
   def test_edit
-    Boom::Command.stubs(:system).returns('')
+    Boom::Platform.stubs(:system).returns('')
     assert_match 'Make your edits', command('edit')
   end
 
