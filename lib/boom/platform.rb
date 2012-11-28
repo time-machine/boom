@@ -35,8 +35,10 @@ module Boom
       def open_command
         if darwin?
           'open'
+        elsif windows?
+          'start'
         else
-          windows? ? 'start' : 'xdg-open'
+          'xdg-open'
         end
       end
 
@@ -61,8 +63,10 @@ module Boom
       def copy_command
         if darwin?
           'pbcopy'
+        elsif windows?
+          'clip'
         else
-          windows? ? 'clip' : 'xclip -selection clipboard'
+          'xclip -selection clipboard'
         end
       end
 
