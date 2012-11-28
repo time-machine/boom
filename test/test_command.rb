@@ -74,12 +74,12 @@ class TestCommand < Test::Unit::TestCase
   end
 
   def test_item_open_url
-    Boom::Platform.stubs(:open_command).returns('echo')
+    Boom::Platform.stubs(:system).returns('')
     assert_match /opened https:\/\/github\.com for you/, command('open github')
   end
 
   def test_item_open_lists
-    Boom::Platform.stubs(:open_command).returns('echo')
+    Boom::Platform.stubs(:system).returns('')
     assert_match /opened all of urls for you/, command('open urls')
   end
 

@@ -48,9 +48,9 @@ module Boom
       # Returns a String explaining what was done.
       def open(item)
         unless windows?
-          `#{open_command} '#{item.url.gsub("\'", "\\'")}'`
+          system(`#{open_command} '#{item.url.gsub("\'", "\\'")}'`)
         else
-          `#{open_command} #{item.url.gsub("\'", "\\'")}`
+          system(`#{open_command} #{item.url.gsub("\'", "\\'")}`)
         end
 
         "#{cyan("Boom!")} We just opened #{yellow(item.value)} for you."
@@ -76,20 +76,27 @@ module Boom
       # Returns a String explaining what was done.
       def copy(item)
         unless windows?
-          Kernel.system("printf '#{item.value.gsub("\'", "\\'")}' | #{copy_command}")
+          system("printf '#{item.value.gsub("\'", "\\'")}' | #{copy_command}")
         else
-          Kernel.system("echo #{item.value.gsub("\'", "\\'")} | #{copy_command}")
+          system("echo #{item.value.gsub("\'", "\\'")} | #{copy_command}")
         end
 
         "#{cyan("Boom!")} We just copied #{yellow(item.value)} to your clipboard."
       end
 
-      def edit(file)
+      # Public: Opens the JSON file in an editor for you to edit. Uses the
+      # $EDITOR environment variable, or %EDITOR% on Windows for editing.
+      # This method is designed to handle multiple platforms.
+      #
+      # Returns a String explaining what was done.
+      def edit(json_file)
         unless windows?
-          system "`echo $EDITOR` #{file} &"
+          system("`echo $EDITOR` #{json_file} &")
         else
-          system "start %EDITOR% #{file}"
+          system("start %EDITOR% #{json_file}")
         end
+
+        "#{cyan("Boom!")} Make your edits, and do be sure to save."
       end
     end
   end
