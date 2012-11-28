@@ -156,7 +156,7 @@ module Boom
           output "#{cyan("Boom!")} We just opened all of #{yellow(major)} for you."
         else
           item = storage.items.detect { |item| item.name == major }
-          output Platform.open(item)
+          output "#{cyan("Boom!")} We just opened #{yellow(Platform.open(item))} for you."
         end
       end
 
@@ -265,7 +265,7 @@ module Boom
           item.name == name
         end
 
-        output Platform.copy(item)
+        output "#{cyan("Boom!")} We just copied #{yellow(Platform.copy(item))} to your clipboard."
       end
 
       # Public: Search for an Item in a particular list by name. Drops the
@@ -280,7 +280,7 @@ module Boom
         item = list.find_item(item_name)
 
         if item
-          output Platform.copy(item)
+          output "#{cyan("Boom!")} We just copied #{yellow(Platform.copy(item))} to your clipboard."
         else
           output "#{yellow(item_name)} #{red("not found in")} #{yellow(list_name)}"
         end
@@ -304,7 +304,7 @@ module Boom
       #
       # Returns nothing.
       def edit
-        output Platform.edit(storage.json_file)
+        output "#{cyan("Boom!")} #{Platform.edit(storage.json_file)}"
       end
 
       # Public: Prints all the commands of boom.

@@ -8,8 +8,6 @@
 module Boom
   class Platform
     class << self
-      include Boom::Color
-
       # Public: Tests if currently running on darwin.
       #
       # Returns true if running on darwin (MacOS X), else false.
@@ -45,7 +43,7 @@ module Boom
       # Public: Opens a given Item's value in the browser. This method is
       # designed to handle multiple platforms.
       #
-      # Returns a String explaining what was done.
+      # Returns a String of the Item value.
       def open(item)
         unless windows?
           system(`#{open_command} '#{item.url.gsub("\'", "\\'")}'`)
@@ -53,7 +51,7 @@ module Boom
           system(`#{open_command} #{item.url.gsub("\'", "\\'")}`)
         end
 
-        "#{cyan("Boom!")} We just opened #{yellow(item.value)} for you."
+        item.value
       end
 
       # Public: Returns the command used to copy a given Item's value to the
@@ -73,7 +71,7 @@ module Boom
       # Public: Copies a give Item's value to the clipboard. This method is
       # designed to handle multiple platforms.
       #
-      # Returns a String explaining what was done.
+      # Returns the String value of the Item.
       def copy(item)
         unless windows?
           system("printf '#{item.value.gsub("\'", "\\'")}' | #{copy_command}")
@@ -81,14 +79,14 @@ module Boom
           system("echo #{item.value.gsub("\'", "\\'")} | #{copy_command}")
         end
 
-        "#{cyan("Boom!")} We just copied #{yellow(item.value)} to your clipboard."
+        item.value
       end
 
       # Public: Opens the JSON file in an editor for you to edit. Uses the
       # $EDITOR environment variable, or %EDITOR% on Windows for editing.
       # This method is designed to handle multiple platforms.
       #
-      # Returns a String explaining what was done.
+      # Returns a String with a helpful message.
       def edit(json_file)
         unless windows?
           system("`echo $EDITOR` #{json_file} &")
@@ -96,7 +94,7 @@ module Boom
           system("start %EDITOR% #{json_file}")
         end
 
-        "#{cyan("Boom!")} Make your edits, and do be sure to save."
+        "Make your edits, and do be sure to save."
       end
     end
   end
