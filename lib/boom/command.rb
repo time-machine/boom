@@ -153,7 +153,7 @@ module Boom
         if storage.list_exists?(major)
           list = List.find(major)
           list.items.each { |item| Platform.open(item) }
-          output "#{cyan("Boom!")} We just opened all of \"#{yellow(major)}\" for you."
+          output "#{cyan("Boom!")} We just opened all of #{yellow(major)} for you."
         else
           item = storage.items.detect { |item| item.name == major }
           output Platform.open(item)
@@ -170,11 +170,11 @@ module Boom
           item = storage.items.detect do |item|
             item.name == major
           end
-          return output "\"#{yellow(major)}\" #{red("not found")}" unless item
+          return output "#{yellow(major)} #{red("not found")}" unless item
         else
           list = List.find(major)
           item = list.find_item(minor)
-          return output "\"#{yellow(minor)}\" #{red("not found in")} \"#{yellow(major)}\"" unless item
+          return output "#{yellow(minor)} #{red("not found in")} #{yellow(major)}" unless item
         end
         output item.value
       end
@@ -194,7 +194,7 @@ module Boom
       def create_list(name, item=nil, value=nil)
         lists = (storage.lists << List.new(name))
         storage.lists = lists
-        output "#{cyan("Boom!")} Created a new list called \"#{yellow(name)}\"."
+        output "#{cyan("Boom!")} Created a new list called #{yellow(name)}."
         save
         add_item(name, item, value) unless value.nil?
       end
@@ -209,7 +209,7 @@ module Boom
       #
       # Returns nothing.
       def delete_list(name)
-        output "You sure you want to delete everything in \"#{name}\"? (y/n):"
+        output "You sure you want to delete everything in #{yellow(name)}? (y/n):"
         if $stdin.gets.chomp == 'y'
           List.delete(name)
           output "#{cyan("Boom!")} Deleted all your #{yellow(name)}."
@@ -233,7 +233,7 @@ module Boom
       def add_item(list, name, value)
         list = List.find(list)
         list.add_item(Item.new(name, value))
-        output "#{cyan("Boom!")} \"#{yellow(name)}\" in \"#{yellow(list.name)}\" is \"#{yellow(value)}\". Got it."
+        output "#{cyan("Boom!")} #{yellow(name)} in #{yellow(list.name)} is #{yellow(value)}. Got it."
         save
       end
 
@@ -250,7 +250,7 @@ module Boom
       def delete_item(list_name, name)
         list = List.find(list_name)
         list.delete_item(name)
-        output "#{cyan("Boom!")} \"#{yellow(name)}\" is gone forever."
+        output "#{cyan("Boom!")} #{yellow(name)} is gone forever."
         save
       end
 
@@ -282,7 +282,7 @@ module Boom
         if item
           output Platform.copy(item)
         else
-          output "\"#{yellow(item_name)}\" #{red("not found in")} \"#{yellow(list_name)}\""
+          output "#{yellow(item_name)} #{red("not found in")} #{yellow(list_name)}"
         end
       end
 

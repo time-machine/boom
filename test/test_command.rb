@@ -56,39 +56,39 @@ class TestCommand < Test::Unit::TestCase
   end
 
   def test_list_creation
-    assert_match /a new list called "newlist"/, command('newlist')
+    assert_match /a new list called newlist/, command('newlist')
   end
 
   def test_list_creation_with_item
-    assert_match /a new list called "newlist".* "item" in "newlist"/, command('newlist item blah')
+    assert_match /a new list called newlist.* item in newlist/, command('newlist item blah')
   end
 
   def test_item_access
-    assert_match /copied "https:\/\/github\.com" to your clipboard/,
+    assert_match /copied https:\/\/github\.com to your clipboard/,
       command('github')
   end
 
   def test_item_access_scoped_by_list
-    assert_match /copied "https:\/\/github\.com" to your clipboard/,
+    assert_match /copied https:\/\/github\.com to your clipboard/,
       command('urls github')
   end
 
   def test_item_open_url
     Boom::Platform.stubs(:open_command).returns('echo')
-    assert_match /opened "https:\/\/github\.com" for you/, command('open github')
+    assert_match /opened https:\/\/github\.com for you/, command('open github')
   end
 
   def test_item_open_lists
     Boom::Platform.stubs(:open_command).returns('echo')
-    assert_match /opened all of \"urls\" for you/, command('open urls')
+    assert_match /opened all of urls for you/, command('open urls')
   end
 
   def test_item_creation
-    assert_match /"twitter" in "urls"/, command('urls twitter http://twitter.com/holman')
+    assert_match /twitter in urls/, command('urls twitter http://twitter.com/holman')
   end
 
   def test_item_creation_long_value
-    assert_match /is "tanqueray hendricks bombay"/,
+    assert_match /is tanqueray hendricks bombay/,
       command('urls gins tanqueray hendricks bombay')
   end
 
@@ -103,7 +103,7 @@ class TestCommand < Test::Unit::TestCase
   end
 
   def test_item_deletion
-    assert_match /"github" is gone forever/, command('urls github delete')
+    assert_match /github is gone forever/, command('urls github delete')
   end
 
   def test_edit
@@ -123,7 +123,7 @@ class TestCommand < Test::Unit::TestCase
   end
 
   def test_nonexistent_item_access_scoped_by_list
-    assert_match /"twitter" not found in "urls"/, command('urls twitter')
+    assert_match /twitter not found in urls/, command('urls twitter')
   end
 
   def test_echo_item
@@ -135,7 +135,7 @@ class TestCommand < Test::Unit::TestCase
   end
 
   def test_echo_item_does_not_exist
-    assert_match /"wrong" not found/, command('echo wrong')
+    assert_match /wrong not found/, command('echo wrong')
   end
 
   def test_show_storage
@@ -158,7 +158,7 @@ class TestCommand < Test::Unit::TestCase
   end
 
   def test_echo_list_item_does_not_exist
-    assert_match /"wrong" not found in "urls"/, command('echo urls wrong')
+    assert_match /wrong not found in urls/, command('echo urls wrong')
   end
 
   def test_version_switch
@@ -174,6 +174,6 @@ class TestCommand < Test::Unit::TestCase
     stub.stubs(:stat).returns([1, 2])
     stub.stubs(:read).returns("http://twitter.com")
     Boom::Command.stubs(:stdin).returns(stub)
-    assert_match /"twitter" in "urls"/, command('urls twitter')
+    assert_match /twitter in urls/, command('urls twitter')
   end
 end
