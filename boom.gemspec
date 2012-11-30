@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   ## the sub! line in the Rakefile.
   s.name              = 'boom'
   s.version           = '0.2.1'
-  s.date              = '2012-11-28'
+  s.date              = '2012-11-30'
   s.rubyforge_project = 'boom'
 
   ## Make sure your summary is short. The description may be as long
@@ -62,6 +62,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('mocha', "~> 0.9.9")
   s.add_development_dependency('turn', "~> 0.9.6")
   s.add_development_dependency('rake', "~> 0.9.2")
+  s.add_development_dependency('httparty')
 
   ## Leave this section as-is. It will be automatically generated from the
   ## contents of your Git repository via the gemspec task. DO NOT REMOVE
@@ -88,6 +89,7 @@ Gem::Specification.new do |s|
     lib/boom/platform.rb
     lib/boom/storage.rb
     lib/boom/storage/base.rb
+    lib/boom/storage/gist.rb
     lib/boom/storage/json.rb
     lib/boom/storage/keychain.rb
     lib/boom/storage/mongodb.rb

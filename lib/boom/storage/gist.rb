@@ -23,12 +23,12 @@
 begin
   require "httparty"
 rescue LoadError
-  puts "The Gist backend requires HTTParty: gem install httpparty"
+  puts "The Gist backend requires HTTParty: gem install httparty"
   exit
 end
 
 # Crack's parsing is no bueno. Use the stdlib instead.
-class JsonParser < HTTParty::JsonParser
+class JsonParser < HTTParty::Parser
   def json
     ::JSON.parse(body)
   end
