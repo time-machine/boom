@@ -347,6 +347,8 @@ module Boom
           boom <list> <name>            copy item's value to clipboard
           boom open <name>              open item's url in browser
           boom open <list> <name>       open item's url in browser
+          boom roulette                 open a random item's url in browser
+          boom roulette <list>          open a random item's url for a list in browser
           boom echo <name>              echo the item's value without copying
           boom echo <list> <name>       echo the item's value without copying
           boom <list> <name> delete     deletes an item
