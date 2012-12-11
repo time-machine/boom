@@ -41,8 +41,8 @@ class TestPlatform < Test::Unit::TestCase
   end
 
   def test_copy_command_windows
-    Boom::Platform.stubs(:windows?).returns(true)
     Boom::Platform.stubs(:darwin?).returns(false)
+    Boom::Platform.stubs(:windows?).returns(true)
     assert_equal Boom::Platform.copy_command, 'clip'
   end
 
