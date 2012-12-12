@@ -46,9 +46,9 @@ module Boom
       # Returns a String of the Item value.
       def open(item)
         unless windows?
-          system(`#{open_command} '#{item.url.gsub("\'", "\\'")}'`)
+          system(`#{open_command} '#{item.url.gsub("\'", "\\\\'")}'`)
         else
-          system(`#{open_command} #{item.url.gsub("\'", "\\'")}`)
+          system(`#{open_command} #{item.url.gsub("\'", "\\\\'")}`)
         end
 
         item.value
@@ -73,14 +73,7 @@ module Boom
       #
       # Returns the String value of the Item.
       def copy(item)
-        value = item.value.gsub("\'", "\\'")
-        unless windows?
-          value = value.gsub('%', '%%')
-          system("printf \"#{value}\" | #{copy_command}")
-        else
-          system("echo #{value} | #{copy_command}")
-        end
-
+        IO.popen(copy_command, 'w') { |cc| cc.puts(item.value) }
         item.value
       end
 
