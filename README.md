@@ -50,3 +50,7 @@ All good? Cool! Then
 merge in your pull request, or are using boom in a cool way. I'm kind of hoping
 this is generic enough that people do some fun things with it. First one to use
 `boom` to calculate their tax liability wins.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/time-machine/boom/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
